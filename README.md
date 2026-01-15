@@ -152,7 +152,7 @@ For detailed model information, see [RESEARCH_MODELS_AND_METHODS.md](RESEARCH_MO
 ## Project Structure
 
 ```
-envaire_tree_analysis/
+forestry_and_cattle_analysis/
 ├── src/                           # Source code
 │   ├── __init__.py               # Package initialization
 │   ├── pipeline.py               # Enhanced pipeline (v3.0)
