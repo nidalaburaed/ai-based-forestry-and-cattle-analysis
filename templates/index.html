@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Forest Analysis - Video Stream</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+        color: #333;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        color: white;
+        padding: 32px 40px;
+        border-bottom: 4px solid #667eea;
+      }
+
+      .header h1 {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .header h1::before {
+        content: "🌲";
+        font-size: 36px;
+      }
+
+      .header p {
+        color: #cbd5e0;
+        font-size: 14px;
+      }
+
+      .content {
+        padding: 40px;
+      }
+
+      .controls-section {
+        background: #f7fafc;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 24px;
+        border: 1px solid #e2e8f0;
+      }
+
+      .controls-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: #2d3748;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-row {
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+        flex-wrap: wrap;
+      }
+
+      .form-field {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #4a5568;
+        font-size: 14px;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        font-family: 'Inter', sans-serif;
+      }
+
+      input[type="text"]:focus,
+      input[type="number"]:focus,
+      select:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      input[type="number"] {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        font-family: 'Inter', sans-serif;
+      }
+
+      select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        font-family: 'Inter', sans-serif;
+        background: white;
+        cursor: pointer;
+      }
+
+      .select-input {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        padding-right: 40px;
+      }
+
+      .input-small {
+        width: 120px;
+      }
+
+      .section-label {
+        display: block;
+        font-weight: 700;
+        margin-bottom: 16px;
+        color: #2d3748;
+        font-size: 15px;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 8px;
+      }
+
+      .checkbox-group {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .checkbox-label {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px;
+        background: white;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .checkbox-label:hover {
+        border-color: #667eea;
+        background: #f7fafc;
+      }
+
+      .checkbox-label input[type="checkbox"] {
+        margin-top: 2px;
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        accent-color: #667eea;
+      }
+
+      .checkbox-text {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .checkbox-text strong {
+        color: #2d3748;
+        font-size: 14px;
+      }
+
+      .checkbox-text small {
+        color: #718096;
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      .pipeline-selector {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 16px;
+        margin-top: 12px;
+      }
+
+      .pipeline-option {
+        cursor: pointer;
+      }
+
+      .pipeline-option input[type="radio"] {
+        display: none;
+      }
+
+      .pipeline-card {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 20px;
+        background: white;
+        border: 3px solid #e2e8f0;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+      }
+
+      .pipeline-option input[type="radio"]:checked + .pipeline-card {
+        border-color: #667eea;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+      }
+
+      .pipeline-card:hover {
+        border-color: #667eea;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+      }
+
+      .pipeline-icon {
+        font-size: 48px;
+        flex-shrink: 0;
+      }
+
+      .pipeline-info h3 {
+        margin: 0 0 4px 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: #2d3748;
+      }
+
+      .pipeline-info p {
+        margin: 0;
+        font-size: 13px;
+        color: #718096;
+        line-height: 1.4;
+      }
+
+      button {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Inter', sans-serif;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-secondary {
+        background: #48bb78;
+        color: white;
+      }
+
+      .btn-secondary:hover {
+        background: #38a169;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(72, 187, 120, 0.4);
+      }
+
+      .btn-secondary::before {
+        content: "🔍";
+      }
+
+      .btn-large {
+        width: 100%;
+        padding: 16px 24px;
+        font-size: 16px;
+        margin-top: 8px;
+      }
+
+      .info-box {
+        background: #edf2f7;
+        border-left: 4px solid #667eea;
+        padding: 12px 16px;
+        border-radius: 6px;
+        margin-top: 16px;
+      }
+
+      .info-box p {
+        font-size: 13px;
+        color: #4a5568;
+        line-height: 1.6;
+      }
+
+      .info-box code {
+        background: white;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        color: #667eea;
+        font-weight: 600;
+      }
+
+      .video-section {
+        background: #000;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .video-header {
+        background: #1a202c;
+        padding: 16px 20px;
+        border-bottom: 2px solid #667eea;
+      }
+
+      .video-header h2 {
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .video-header h2::before {
+        content: "📹";
+      }
+
+      .status-indicator {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background: #48bb78;
+        border-radius: 50%;
+        margin-left: auto;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+
+      .video-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #000;
+        min-height: 480px;
+      }
+
+      .video-box img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .loading {
+        color: #cbd5e0;
+        font-size: 14px;
+      }
+
+      @media (max-width: 768px) {
+        .header {
+          padding: 24px 20px;
+        }
+
+        .header h1 {
+          font-size: 24px;
+        }
+
+        .content {
+          padding: 20px;
+        }
+
+        .form-row {
+          flex-direction: column;
+        }
+
+        .form-field {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Forest Analysis System</h1>
+        <p>Real-time video stream processing and analysis</p>
+      </div>
+
+      <div class="content">
+        <div class="controls-section">
+          <h2 class="controls-title">Video Source Configuration</h2>
+
+          <form id="srcForm" method="get" action="/">
+            <div class="form-group">
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="src">Video Source</label>
+                  <input id="src" name="src" type="text" value="{{ src }}" placeholder="Enter camera index, file path, or stream URL" />
+                </div>
+                <button type="submit" class="btn-primary">Load Source</button>
+              </div>
+            </div>
+          </form>
+
+          <form id="analyzeForm" method="post" action="/analyze">
+            <input id="src_post" name="src" type="hidden" value="{{ src }}" />
+
+            <!-- Pipeline Selection -->
+            <div class="form-group">
+              <label class="section-label">🎯 Analysis Type</label>
+              <div class="pipeline-selector">
+                <label class="pipeline-option">
+                  <input type="radio" name="pipeline" value="forest" checked />
+                  <div class="pipeline-card">
+                    <div class="pipeline-icon">🌲</div>
+                    <div class="pipeline-info">
+                      <h3>Forest Analysis</h3>
+                      <p>Tree detection, species classification, forestry planning</p>
+                    </div>
+                  </div>
+                </label>
+                <label class="pipeline-option">
+                  <input type="radio" name="pipeline" value="cattle" />
+                  <div class="pipeline-card">
+                    <div class="pipeline-icon">🐄</div>
+                    <div class="pipeline-info">
+                      <h3>Cattle Monitoring</h3>
+                      <p>Herd tracking, behavior analysis, health monitoring</p>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Analysis Configuration -->
+            <div class="form-group">
+              <label class="section-label">Analysis Configuration</label>
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="mode">Analysis Mode</label>
+                  <select id="mode" name="mode" class="select-input">
+                    <option value="fast">Fast - Quick overview</option>
+                    <option value="standard" selected>Standard - Balanced</option>
+                    <option value="detailed">Detailed - Comprehensive</option>
+                    <option value="research">Research - Maximum detail</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label for="max_frames">Max Frames</label>
+                  <input id="max_frames" name="max_frames" type="number" value="10" min="1" max="1000" class="input-small" />
+                </div>
+                <div class="form-field">
+                  <label for="frame_interval">Frame Interval (seconds)</label>
+                  <input id="frame_interval" name="frame_interval" type="number" value="2" min="1" max="30" class="input-small" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Model Selection -->
+            <div class="form-group">
+              <label class="section-label">AI Models</label>
+              <div class="checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="use_sam2" />
+                  <span class="checkbox-text">
+                    <strong>SAM2 Segmentation</strong>
+                    <small>Precise tree crown segmentation (requires installation)</small>
+                  </span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="use_deepforest" />
+                  <span class="checkbox-text">
+                    <strong>DeepForest Validation</strong>
+                    <small>Specialized tree detection validation (requires installation)</small>
+                  </span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="use_vit" />
+                  <span class="checkbox-text">
+                    <strong>ViT Species Classification</strong>
+                    <small>Vision Transformer for species identification (requires fine-tuned model)</small>
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Output Options -->
+            <div class="form-group">
+              <label class="section-label">Output Options</label>
+              <div class="checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="save_debug" />
+                  <span class="checkbox-text">
+                    <strong>Save Debug Frames</strong>
+                    <small>Save annotated frames with visualizations</small>
+                  </span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="generate_reports" checked />
+                  <span class="checkbox-text">
+                    <strong>Generate Reports</strong>
+                    <small>Create PDF, Excel, HTML, and CSV reports</small>
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-group">
+              <button id="analyzeBtn" type="submit" class="btn-secondary btn-large">Run Analysis</button>
+            </div>
+          </form>
+
+          <div class="info-box">
+            <p><strong>Source Examples:</strong></p>
+            <p>
+              • <code>0</code> - Default webcam<br>
+              • <code>1</code> - Secondary camera<br>
+              • <code>path/to/video.mp4</code> - Local video file<br>
+              • <code>rtsp://...</code> or <code>http://...</code> - Network stream
+            </p>
+          </div>
+        </div>
+
+        <div class="video-section">
+          <div class="video-header">
+            <h2>Live Video Feed <span class="status-indicator"></span></h2>
+          </div>
+          <div class="video-box">
+            <img id="video" src="/video_feed?src={{ src }}" alt="Video feed" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Keep the analyze form's hidden src in sync with the text input
+      const srcInput = document.getElementById('src');
+      const srcPost = document.getElementById('src_post');
+      srcInput.addEventListener('input', () => { srcPost.value = srcInput.value; });
+
+      // Show loading state when analyzing
+      const analyzeForm = document.getElementById('analyzeForm');
+      const analyzeBtn = document.getElementById('analyzeBtn');
+      analyzeForm.addEventListener('submit', () => {
+        analyzeBtn.textContent = '⏳ Analyzing...';
+        analyzeBtn.disabled = true;
+      });
+    </script>
+  </body>
+</html>

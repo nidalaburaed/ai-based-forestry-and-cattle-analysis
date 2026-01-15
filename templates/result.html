@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Analysis Results - Forest Analysis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+        color: #333;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        color: white;
+        padding: 32px 40px;
+        border-bottom: 4px solid #667eea;
+        position: relative;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #cbd5e0;
+        text-decoration: none;
+        font-size: 14px;
+        margin-bottom: 16px;
+        transition: color 0.3s ease;
+      }
+
+      .back-link:hover {
+        color: white;
+      }
+
+      .back-link::before {
+        content: "←";
+        font-size: 18px;
+      }
+
+      .header h1 {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .header h1::before {
+        content: "📊";
+        font-size: 36px;
+      }
+
+      .source-info {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-top: 16px;
+        display: inline-block;
+      }
+
+      .source-info strong {
+        color: #cbd5e0;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .source-info span {
+        color: white;
+        font-size: 14px;
+        margin-left: 8px;
+        font-family: 'Courier New', monospace;
+      }
+
+      .content {
+        padding: 40px;
+      }
+
+      .reports-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .report-card {
+        background: #f7fafc;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        gap: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .report-card:hover {
+        border-color: #667eea;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        transform: translateY(-2px);
+      }
+
+      .report-icon {
+        font-size: 36px;
+        flex-shrink: 0;
+      }
+
+      .report-info {
+        flex: 1;
+      }
+
+      .report-info h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 4px;
+      }
+
+      .report-info p {
+        font-size: 13px;
+        color: #718096;
+        margin-bottom: 12px;
+      }
+
+      .report-link {
+        display: inline-block;
+        padding: 8px 16px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .report-link:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+      }
+
+      .csv-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .report-link-small {
+        display: inline-block;
+        padding: 6px 12px;
+        background: #48bb78;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .report-link-small:hover {
+        background: #38a169;
+        transform: translateY(-1px);
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-top: 20px;
+      }
+
+      .stat-card {
+        background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        border-color: #667eea;
+      }
+
+      .stat-icon {
+        font-size: 36px;
+        flex-shrink: 0;
+      }
+
+      .stat-info {
+        flex: 1;
+      }
+
+      .stat-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: #2d3748;
+        line-height: 1;
+      }
+
+      .stat-label {
+        font-size: 13px;
+        color: #718096;
+        margin-top: 4px;
+      }
+
+      .subsection {
+        margin-top: 24px;
+        padding: 20px;
+        background: #f7fafc;
+        border-radius: 8px;
+      }
+
+      .subsection h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 16px;
+      }
+
+      .behavior-grid, .health-grid, .activity-grid {
+        display: grid;
+        gap: 12px;
+      }
+
+      .behavior-item, .activity-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        background: white;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+      }
+
+      .behavior-label, .activity-label {
+        font-size: 14px;
+        color: #4a5568;
+        font-weight: 500;
+      }
+
+      .behavior-value, .activity-value {
+        font-size: 16px;
+        font-weight: 700;
+        color: #667eea;
+      }
+
+      .health-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+
+      .health-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+        background: white;
+        border-radius: 8px;
+        border: 2px solid #e2e8f0;
+      }
+
+      .health-item.healthy {
+        border-color: #48bb78;
+        background: linear-gradient(135deg, rgba(72, 187, 120, 0.05) 0%, rgba(72, 187, 120, 0.02) 100%);
+      }
+
+      .health-item.attention {
+        border-color: #ed8936;
+        background: linear-gradient(135deg, rgba(237, 137, 54, 0.05) 0%, rgba(237, 137, 54, 0.02) 100%);
+      }
+
+      .health-icon {
+        font-size: 24px;
+      }
+
+      .health-label {
+        flex: 1;
+        font-size: 14px;
+        color: #4a5568;
+        font-weight: 500;
+      }
+
+      .health-value {
+        font-size: 18px;
+        font-weight: 700;
+        color: #2d3748;
+      }
+
+      .error-section {
+        background: #fff5f5;
+        border: 2px solid #fc8181;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 24px;
+      }
+
+      .error-section h2 {
+        color: #c53030;
+        font-size: 20px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .error-section h2::before {
+        content: "⚠️";
+      }
+
+      .section {
+        background: #f7fafc;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 24px;
+        border: 1px solid #e2e8f0;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+        border-bottom: 2px solid #e2e8f0;
+      }
+
+      .section-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #2d3748;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .section-title.stats::before {
+        content: "📈";
+        font-size: 24px;
+      }
+
+      .section-title.plan::before {
+        content: "🗺️";
+        font-size: 24px;
+      }
+
+      .badge {
+        background: #667eea;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      pre {
+        background: #1a202c;
+        color: #e2e8f0;
+        padding: 20px;
+        border-radius: 8px;
+        overflow-x: auto;
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+        line-height: 1.6;
+        border: 1px solid #2d3748;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .no-data {
+        text-align: center;
+        padding: 40px;
+        color: #718096;
+      }
+
+      .no-data::before {
+        content: "📭";
+        font-size: 48px;
+        display: block;
+        margin-bottom: 16px;
+      }
+
+      .success-badge {
+        background: #48bb78;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+
+      .success-badge::before {
+        content: "✓";
+        font-size: 18px;
+      }
+
+      @media (max-width: 768px) {
+        .header {
+          padding: 24px 20px;
+        }
+
+        .header h1 {
+          font-size: 24px;
+        }
+
+        .content {
+          padding: 20px;
+        }
+
+        pre {
+          font-size: 11px;
+          padding: 16px;
+        }
+      }
+
+      /* JSON syntax highlighting */
+      pre .key { color: #81e6d9; }
+      pre .string { color: #fbd38d; }
+      pre .number { color: #fc8181; }
+      pre .boolean { color: #b794f4; }
+      pre .null { color: #a0aec0; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <a href="/" class="back-link">Back to Video Stream</a>
+        <h1>Analysis Results</h1>
+        <div class="source-info">
+          <strong>Source:</strong>
+          <span>{{ src }}</span>
+        </div>
+      </div>
+
+      <div class="content">
+        {% if error %}
+          <div class="error-section">
+            <h2>Analysis Error</h2>
+            <pre>{{ error }}</pre>
+          </div>
+        {% else %}
+          <div class="success-badge">
+            {% if pipeline_type == 'cattle' %}
+              🐄 Cattle Analysis Completed Successfully
+            {% else %}
+              🌲 Forest Analysis Completed Successfully
+            {% endif %}
+          </div>
+
+          <!-- Generated Reports Section -->
+          {% if report_paths %}
+          <div class="section">
+            <div class="section-header">
+              <h2 class="section-title reports">📄 Generated Reports</h2>
+              <span class="badge">{{ report_paths | length }} formats</span>
+            </div>
+            <div class="reports-grid">
+              {% if report_paths.pdf %}
+              <div class="report-card">
+                <div class="report-icon">📄</div>
+                <div class="report-info">
+                  <h3>PDF Report</h3>
+                  <p>Professional forestry plan document</p>
+                  <a href="file:///{{ report_paths.pdf }}" class="report-link" target="_blank">Open PDF</a>
+                </div>
+              </div>
+              {% endif %}
+
+              {% if report_paths.excel %}
+              <div class="report-card">
+                <div class="report-icon">📊</div>
+                <div class="report-info">
+                  <h3>Excel Report</h3>
+                  <p>Multi-sheet workbook for data analysis</p>
+                  <a href="file:///{{ report_paths.excel }}" class="report-link" target="_blank">Open Excel</a>
+                </div>
+              </div>
+              {% endif %}
+
+              {% if report_paths.html %}
+              <div class="report-card">
+                <div class="report-icon">🌐</div>
+                <div class="report-info">
+                  <h3>HTML Report</h3>
+                  <p>Interactive web-based report</p>
+                  <a href="file:///{{ report_paths.html }}" class="report-link" target="_blank">Open HTML</a>
+                </div>
+              </div>
+              {% endif %}
+
+              {% if report_paths.sites_csv or report_paths.stands_csv or report_paths.activities_csv or report_paths.statistics_csv %}
+              <div class="report-card">
+                <div class="report-icon">📋</div>
+                <div class="report-info">
+                  <h3>CSV Exports</h3>
+                  <p>GIS-compatible data files</p>
+                  <div class="csv-links">
+                    {% if report_paths.sites_csv %}<a href="file:///{{ report_paths.sites_csv }}" class="report-link-small" target="_blank">Sites</a>{% endif %}
+                    {% if report_paths.stands_csv %}<a href="file:///{{ report_paths.stands_csv }}" class="report-link-small" target="_blank">Stands</a>{% endif %}
+                    {% if report_paths.activities_csv %}<a href="file:///{{ report_paths.activities_csv }}" class="report-link-small" target="_blank">Activities</a>{% endif %}
+                    {% if report_paths.statistics_csv %}<a href="file:///{{ report_paths.statistics_csv }}" class="report-link-small" target="_blank">Statistics</a>{% endif %}
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="section">
+            <div class="section-header">
+              {% if pipeline_type == 'cattle' %}
+                <h2 class="section-title stats">🐄 Herd Statistics</h2>
+              {% else %}
+                <h2 class="section-title stats">📊 Aggregated Statistics</h2>
+              {% endif %}
+              {% if stats %}
+                <span class="badge">Data Available</span>
+              {% endif %}
+            </div>
+            {% if stats %}
+              {% if pipeline_type == 'cattle' %}
+                <!-- Cattle-specific statistics display -->
+                <div class="stats-grid">
+                  <div class="stat-card">
+                    <div class="stat-icon">🐄</div>
+                    <div class="stat-info">
+                      <div class="stat-value">{{ stats.total_cattle_detected }}</div>
+                      <div class="stat-label">Total Cattle Detected</div>
+                    </div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-info">
+                      <div class="stat-value">{{ stats.unique_cattle_tracked }}</div>
+                      <div class="stat-label">Unique Cattle Tracked</div>
+                    </div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-info">
+                      <div class="stat-value">{{ stats.avg_cattle_per_frame }}</div>
+                      <div class="stat-label">Avg Cattle per Frame</div>
+                    </div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-info">
+                      <div class="stat-value">{{ stats.max_cattle_in_frame }}</div>
+                      <div class="stat-label">Max in Single Frame</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Behavior Distribution -->
+                {% if stats.behavior_distribution %}
+                <div class="subsection">
+                  <h3>Behavior Distribution</h3>
+                  <div class="behavior-grid">
+                    {% for behavior, percentage in stats.behavior_distribution.items() %}
+                    <div class="behavior-item">
+                      <span class="behavior-label">{{ behavior | capitalize }}</span>
+                      <span class="behavior-value">{{ percentage }}</span>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                {% endif %}
+
+                <!-- Health Status -->
+                {% if stats.health_status %}
+                <div class="subsection">
+                  <h3>Health Status</h3>
+                  <div class="health-grid">
+                    <div class="health-item healthy">
+                      <span class="health-icon">✅</span>
+                      <span class="health-label">Healthy</span>
+                      <span class="health-value">{{ stats.health_status.healthy }}</span>
+                    </div>
+                    <div class="health-item attention">
+                      <span class="health-icon">⚠️</span>
+                      <span class="health-label">Attention Needed</span>
+                      <span class="health-value">{{ stats.health_status.attention_needed }}</span>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+
+                <!-- Activity Levels -->
+                {% if stats.activity_levels %}
+                <div class="subsection">
+                  <h3>Activity Levels</h3>
+                  <div class="activity-grid">
+                    <div class="activity-item">
+                      <span class="activity-label">Active (Standing/Walking/Grazing)</span>
+                      <span class="activity-value">{{ stats.activity_levels.active }}</span>
+                    </div>
+                    <div class="activity-item">
+                      <span class="activity-label">Resting (Lying)</span>
+                      <span class="activity-value">{{ stats.activity_levels.resting }}</span>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+
+                <!-- Raw JSON for debugging -->
+                <details style="margin-top: 20px;">
+                  <summary style="cursor: pointer; font-weight: 600; color: #667eea;">View Raw Data</summary>
+                  <pre style="margin-top: 10px;">{{ stats | tojson(indent=2) }}</pre>
+                </details>
+              {% else %}
+                <!-- Forest statistics display (original) -->
+                <pre>{{ stats | tojson(indent=2) }}</pre>
+              {% endif %}
+            {% else %}
+              <div class="no-data">
+                <p>No statistics data available</p>
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="section">
+            <div class="section-header">
+              <h2 class="section-title plan">Forest Management Plan</h2>
+              {% if plan %}
+                <span class="badge">Data Available</span>
+              {% endif %}
+            </div>
+            {% if plan %}
+              <pre>{{ plan | tojson(indent=2) }}</pre>
+            {% else %}
+              <div class="no-data">
+                <p>No forest plan data available</p>
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <script>
+      // Add simple JSON syntax highlighting
+      document.querySelectorAll('pre').forEach(pre => {
+        if (pre.textContent.trim().startsWith('{') || pre.textContent.trim().startsWith('[')) {
+          try {
+            const json = JSON.parse(pre.textContent);
+            const highlighted = syntaxHighlight(JSON.stringify(json, null, 2));
+            pre.innerHTML = highlighted;
+          } catch (e) {
+            // Keep original if not valid JSON
+          }
+        }
+      });
+
+      function syntaxHighlight(json) {
+        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+          let cls = 'number';
+          if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+              cls = 'key';
+            } else {
+              cls = 'string';
+            }
+          } else if (/true|false/.test(match)) {
+            cls = 'boolean';
+          } else if (/null/.test(match)) {
+            cls = 'null';
+          }
+          return '<span class="' + cls + '">' + match + '</span>';
+        });
+      }
+    </script>
+  </body>
+</html>
