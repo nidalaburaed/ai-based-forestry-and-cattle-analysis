@@ -56,8 +56,8 @@ Analyzes livestock video to provide herd management insights including cattle de
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/envaire_tree_analysis.git
-cd envaire_tree_analysis
+git clone
+cd 
 
 # Create virtual environment
 python -m venv venv
