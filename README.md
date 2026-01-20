@@ -282,9 +282,8 @@ Contributions welcome! Areas of interest:
 
 New to the project? Start here:
 
-1. **[QUICKSTART.md](QUICKSTART.md)** - Get running in 5 minutes
-2. **[docs/USAGE_GUIDE.md](docs/USAGE_GUIDE.md)** - Comprehensive guide
-3. **[examples/example_usage.py](examples/example_usage.py)** - Code examples
+1. **[docs/USAGE_GUIDE.md](docs/USAGE_GUIDE.md)** - Comprehensive guide
+2. **[examples/example_usage.py](examples/example_usage.py)** - Code examples
 
 ## Acknowledgments
 
