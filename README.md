@@ -145,9 +145,6 @@ For detailed model information, see [RESEARCH_MODELS_AND_METHODS.md](RESEARCH_MO
 ## Documentation
 
 - **[docs/USAGE_GUIDE.md](docs/USAGE_GUIDE.md)** - Comprehensive usage instructions
-- **[docs/RESEARCH_MODELS_AND_METHODS.md](docs/RESEARCH_MODELS_AND_METHODS.md)** - Model research and selection
-- **[docs/PROJECT_SUMMARY.md](docs/PROJECT_SUMMARY.md)** - Project overview and deliverables
-- **[src/data_structures.py](src/data_structures.py)** - Data structure documentation
 
 ## Project Structure
 
