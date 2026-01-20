@@ -100,7 +100,7 @@ python analyze.py test_video/tree_test_video.mp4
 The pipeline generates:
 - **ForestPlan JSON:** Complete forest inventory data
 - **Frame Analysis:** Per-frame statistics and metrics
-- **Professional Reports:** PDF, Excel, HTML, CSV formats (see [Report Generation Guide](docs/REPORT_GENERATION.md))
+- **Professional Reports:** PDF, Excel, HTML, CSV formats
 - **Debug Frames:** Annotated visualizations (if enabled)
 
 Example output structure:
