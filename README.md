@@ -13,7 +13,7 @@ This project provides comprehensive analysis pipelines that process video data u
 Processes forest video footage to extract detailed inventory data including tree detection, species classification, biomass estimation, and comprehensive forestry planning.
 
 ### 🐄 Cattle Monitoring
-Analyzes livestock video to provide herd management insights including cattle detection, behavior recognition, health monitoring, and management recommendations.
+Analyzes cattle video to provide herd management insights including cattle detection, behavior recognition, health monitoring, and management recommendations.
 
 ### Key Features
 
@@ -140,8 +140,6 @@ Example output structure:
 - **Accuracy:** State-of-the-art classification
 - **Use Case:** Species-level inventory
 
-For detailed model information, see [RESEARCH_MODELS_AND_METHODS.md](RESEARCH_MODELS_AND_METHODS.md)
-
 ## Documentation
 
 - **[docs/USAGE_GUIDE.md](docs/USAGE_GUIDE.md)** - Comprehensive usage instructions
@@ -156,9 +154,7 @@ forestry_and_cattle_analysis/
 │   ├── data_structures.py        # ForestPlan data structures
 │   └── video_reader.py           # Video processing utilities
 ├── docs/                          # Documentation
-│   ├── RESEARCH_MODELS_AND_METHODS.md
 │   ├── USAGE_GUIDE.md
-│   └── PROJECT_SUMMARY.md
 ├── examples/                      # Usage examples
 │   └── example_usage.py
 ├── models/                        # Model files (download separately)
@@ -289,10 +285,6 @@ New to the project? Start here:
 1. **[QUICKSTART.md](QUICKSTART.md)** - Get running in 5 minutes
 2. **[docs/USAGE_GUIDE.md](docs/USAGE_GUIDE.md)** - Comprehensive guide
 3. **[examples/example_usage.py](examples/example_usage.py)** - Code examples
-
-## License
-
-MIT License - see [LICENSE](LICENSE) file for details
 
 ## Acknowledgments
 
