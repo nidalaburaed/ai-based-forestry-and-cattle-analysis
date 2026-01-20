@@ -312,4 +312,4 @@ For questions, issues, or collaboration:
 
 ---
 
-**Note:** This repository is for educational purposes only (to demonstrate the latest innovation and development wave in AI and IT markets, key technical insights of the era) and does not include fully implemented functionalities. For the production (commercial) version, contact nidalaburaed@hotmail.com
+**Note:** This repository is for educational purposes only (to demonstrate the latest innovation and development wave in AI and IT markets, the latest technical insights) and does not include fully implemented functionalities. For the production (commercial) version, contact nidalaburaed@hotmail.com
