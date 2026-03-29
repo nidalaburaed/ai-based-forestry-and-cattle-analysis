@@ -2,9 +2,6 @@
 
 **State-of-the-art AI-powered analysis system for forestry and cattle management**
 
-<img width="757" height="429" alt="image" src="https://github.com/user-attachments/assets/4ebf3bf2-9dbd-41c9-9c49-919fa6ef2e0e" />
-
-
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
